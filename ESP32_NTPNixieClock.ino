@@ -197,7 +197,8 @@ void updateDisplay(void) {
     SHIELD.setLEDColor(red);
 
     // Do anti-poisoning function
-    SHIELD.doAntiPoisoning();
+    SHIELD.doAntiPoisoning(false); // Normal Mode
+    //SHIELD.doAntiPoisoning(true); // Flicker Mode
   }
 
   // 15 minute event is rainbow display
@@ -468,7 +469,8 @@ void setup() {
   SHIELD.hvEnable(true);
 
   // Do the anti poisoning routine
-  SHIELD.doAntiPoisoning();
+  SHIELD.doAntiPoisoning(false); // Normal Mode
+  //SHIELD.doAntiPoisoning(true); // Flicker Mode
 
   Serial.println("\nReady!\n");
 }
