@@ -25,9 +25,9 @@ RGB24 magenta = {127,   0, 127};
 RGB24 yellow  = {127, 127,   0};
 RGB24 white   = {127, 127, 127};
 
-//#define LED_RED_CHANNEL 1
-//#define LED_GREEN_CHANNEL 2
-//#define LED_BLUE_CHANNEL 3
+#define LED_RED_CHANNEL 1
+#define LED_GREEN_CHANNEL 2
+#define LED_BLUE_CHANNEL 3
 
 // LEDControl Class Definition
 class LEDControl {
@@ -60,9 +60,9 @@ class LEDControl {
       //ledcWrite(LED_BLUE_CHANNEL, 0);
 
       // Each channel is set up for 12kHz and 10-bit resolution        
-      ledcAttach(redPin, 12000, 10);
-      ledcAttach(greenPin, 12000, 10);
-      ledcAttach(bluePin, 12000, 10);
+      ledcAttachChannel(redPin, 12000, 10, LED_RED_CHANNEL);
+      ledcAttachChannel(greenPin, 12000, 10, LED_GREEN_CHANNEL);
+      ledcAttachChannel(bluePin, 12000, 10, LED_BLUE_CHANNEL);
 
       // Turn off RGB LEDs
       ledcWrite(redPin, 0);
