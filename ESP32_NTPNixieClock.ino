@@ -505,6 +505,7 @@ void loop() {
 
   // If set button is long-pressed, restart ESP
   if (SHIELD.isSetButtonLongClicked()) {
+    Serial.println("Restarting ESP");
     esp_restart();
   }
 
