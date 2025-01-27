@@ -153,8 +153,10 @@ void updateDisplay(void) {
       clockOn = true;
       Serial.println("Clock is On");
 
-      // Clock should be on so turn high voltage on
-      SHIELD.hvEnable(true);
+      #ifndef ESP32_WEMOS_D1_R32
+          // Clock should be on so turn high voltage on
+          SHIELD.hvEnable(true);
+      #endif
     }
   } else  {
     if (clockOn) {
@@ -162,9 +164,11 @@ void updateDisplay(void) {
 
       Serial.println("Clock is Off");
 
-      // Clock is going off so shut things down in an orderly fashion
-      // First turn off the high voltage so the nixie's go off
-      SHIELD.hvEnable(false);
+      #ifndef ESP32_WEMOS_D1_R32
+          // Clock is going off so shut things down in an orderly fashion
+          // First turn off the high voltage so the nixie's go off
+          SHIELD.hvEnable(false);
+      #endif
 
       // Next turn off the dots
       SHIELD.dotsEnable(false);
@@ -418,8 +422,10 @@ void WIFI_StartAccessPoint() {
 // ***************************************************************
 
 void setup() {
-  // Turn off the high voltage for the clock
-  SHIELD.hvEnable(false);
+  #ifndef ESP32_WEMOS_D1_R32
+      // Turn off the high voltage for the clock
+      SHIELD.hvEnable(false);
+  #endif
 
   // Turn off DAC channels
   dac_output_disable(DAC_CHANNEL_1);
@@ -465,8 +471,10 @@ void setup() {
   // Turn off the dots
   SHIELD.dotsEnable(false);
 
-  // Turn on the high voltage for the clock
-  SHIELD.hvEnable(true);
+  #ifndef ESP32_WEMOS_D1_R32
+      // Turn on the high voltage for the clock
+      SHIELD.hvEnable(true);
+  #endif
 
   // Do the anti poisoning routine
   SHIELD.doAntiPoisoning(false); // Normal Mode
