@@ -16,16 +16,37 @@
 // ESP32 Pin Configuration
 // ***************************************************************
 
-#define LED_GREEN    A16
-#define LED_RED      A14
-#define LED_BLUE     A13
-#define HV_ENABLE     17  //TODO
-#define LATCH_ENABLE  SS
-#define NEON_DOTS    A18
-#define MODE_BUTTON  A15
-#define UP_BUTTON     16
-#define DOWN_BUTTON  A10
-#define BUZZER_PIN    A4
+//#define ESP32_WEMOS_D1_R32
+
+#ifdef ESP32_WEMOS_D1_R32
+    // Wemos D1 R32 Pin Definitions
+    #define LED_GREEN    27
+    #define LED_RED      13
+    #define LED_BLUE     25
+    #define LATCH_ENABLE SS  // SS (GPIO5)
+    #define MODE_BUTTON  2
+    #define UP_BUTTON     35
+    #define DOWN_BUTTON  4
+    #define BUZZER_PIN    26
+
+    // Not used in this Sctipt
+    // 14 - TMP
+    // 16 - SHDN
+    // 17 - IR
+    // 34 - LS
+#else
+    // Normal ESP32 Pin Definitions
+    #define LED_GREEN    A16
+    #define LED_RED      A14
+    #define LED_BLUE     A13
+    #define HV_ENABLE    17  //TODO
+    #define LATCH_ENABLE SS
+    #define NEON_DOTS    A18
+    #define MODE_BUTTON  A15
+    #define UP_BUTTON     16
+    #define DOWN_BUTTON  A10
+    #define BUZZER_PIN    A4
+#endif
 
 #define DS1307_ADDRESS 0x68
 
@@ -64,19 +85,27 @@ class NixieTubeShield : public LEDControl {
     // Class Constructor
     NixieTubeShield() : LEDControl(LED_RED, LED_GREEN, LED_BLUE) {
 
+      // Check if we're using Wemos D1 R32 or normal ESP32
+      #ifndef ESP32_WEMOS_D1_R32
+          // Normal ESP32 specific setup
+          // Setup output pins
+          pinMode(HV_ENABLE,    OUTPUT);
+          pinMode(NEON_DOTS,    OUTPUT);
+          //pinMode(NEON_DOTS_LOWER,    OUTPUT);
+        
+          // Set default outputs
+          digitalWrite(HV_ENABLE,    LOW);
+          digitalWrite(NEON_DOTS,    LOW);
+      #endif
+
       // Setup output pins
-      pinMode(HV_ENABLE,    OUTPUT);
       pinMode(LATCH_ENABLE, OUTPUT);
-      pinMode(NEON_DOTS,    OUTPUT);
       pinMode(MODE_BUTTON,  INPUT_PULLUP);
       pinMode(UP_BUTTON,  INPUT_PULLUP);
       pinMode(DOWN_BUTTON,  INPUT_PULLUP);
-      //pinMode(NEON_DOTS_LOWER,    OUTPUT);
-
-      // Set default outputs
-      digitalWrite(HV_ENABLE,    LOW);
+        
+      // Setup output pins
       digitalWrite(LATCH_ENABLE, LOW);
-      digitalWrite(NEON_DOTS,    LOW);
 
       setButton.debounceTime   = 20;   // Debounce timer in ms
       setButton.multiclickTime = 30;  // Time limit for multi clicks
@@ -96,10 +125,12 @@ class NixieTubeShield : public LEDControl {
       }
     }
 
-    // High voltage control
-    void hvEnable(boolean state) {
-      digitalWrite(HV_ENABLE, state ? HIGH : LOW);
-    }
+    #ifndef ESP32_WEMOS_D1_R32
+        // High voltage control
+        void hvEnable(boolean state) {
+          digitalWrite(HV_ENABLE, state ? HIGH : LOW);
+        }
+    #endif
 
     // Neon lamp control
     void dotsEnable(boolean state) {
