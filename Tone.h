@@ -103,12 +103,13 @@ public:
 	}
 
 	void begin(uint8_t pin) {
-     ledcSetup(TONE_CHANNEL, 1E5, 12);
-     ledcAttachPin(pin,TONE_CHANNEL);
+	     //ledcSetup(TONE_CHANNEL, 1E5, 12);
+	     //ledcAttachPin(pin,TONE_CHANNEL);
+	     ledcAttachChannel(pin, 1E5, 12, TONE_CHANNEL);
 	}
 
 	void play(unsigned int freq, unsigned long duration) {
-    ledcWriteTone(TONE_CHANNEL, freq);
+		ledcWriteTone(TONE_CHANNEL, freq);
 		// TODO
 		//tone(_pin, freq, duration);
 	}
