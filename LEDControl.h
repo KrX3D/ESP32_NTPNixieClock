@@ -25,9 +25,9 @@ RGB24 magenta = {127,   0, 127};
 RGB24 yellow  = {127, 127,   0};
 RGB24 white   = {127, 127, 127};
 
-#define LED_RED_CHANNEL 1
-#define LED_GREEN_CHANNEL 2
-#define LED_BLUE_CHANNEL 3
+//#define LED_RED_CHANNEL 1
+//#define LED_GREEN_CHANNEL 2
+//#define LED_BLUE_CHANNEL 3
 
 // LEDControl Class Definition
 class LEDControl {
@@ -46,18 +46,28 @@ class LEDControl {
       pinMode(bluePin,  OUTPUT);
 
       // Each channel is set up for 12kHz and 10-bit resolution
-      ledcSetup(LED_RED_CHANNEL, 12000, 10);
-      ledcSetup(LED_GREEN_CHANNEL, 12000, 10);
-      ledcSetup(LED_BLUE_CHANNEL, 12000, 10);
+      //ledcSetup(LED_RED_CHANNEL, 12000, 10);
+      //ledcSetup(LED_GREEN_CHANNEL, 12000, 10);
+      //ledcSetup(LED_BLUE_CHANNEL, 12000, 10);
 
-      ledcAttachPin(redPin, LED_RED_CHANNEL);
-      ledcAttachPin(greenPin, LED_GREEN_CHANNEL);
-      ledcAttachPin(bluePin, LED_BLUE_CHANNEL);
+      //ledcAttachPin(redPin, LED_RED_CHANNEL);
+      //ledcAttachPin(greenPin, LED_GREEN_CHANNEL);
+      //ledcAttachPin(bluePin, LED_BLUE_CHANNEL);
 
       // Turn off RGB LEDs
-      ledcWrite(LED_RED_CHANNEL, 0);
-      ledcWrite(LED_GREEN_CHANNEL, 0);
-      ledcWrite(LED_BLUE_CHANNEL, 0);
+      //ledcWrite(LED_RED_CHANNEL, 0);
+      //ledcWrite(LED_GREEN_CHANNEL, 0);
+      //ledcWrite(LED_BLUE_CHANNEL, 0);
+
+      // Each channel is set up for 12kHz and 10-bit resolution        
+      ledcAttach(redPin, 12000, 10);
+      ledcAttach(greenPin, 12000, 10);
+      ledcAttach(bluePin, 12000, 10);
+
+      // Turn off RGB LEDs
+      ledcWrite(redPin, 0);
+      ledcWrite(greenPin, 0);
+      ledcWrite(bluePin, 0);
     }
 
     // Input a value 0 to 255 to get a color value.
@@ -99,9 +109,12 @@ class LEDControl {
       int rblu = map(blue,  0, 255, 0, 1023);
 
       // Use PWM to control LED brightness
-      ledcWrite(LED_RED_CHANNEL, rred);
-      ledcWrite(LED_GREEN_CHANNEL, rgrn);
-      ledcWrite(LED_BLUE_CHANNEL, rblu);
+      //ledcWrite(LED_RED_CHANNEL, rred);
+      //ledcWrite(LED_GREEN_CHANNEL, rgrn);
+      //ledcWrite(LED_BLUE_CHANNEL, rblu);
+      ledcWrite(redPin, rred);
+      ledcWrite(greenPin, rgrn);
+      ledcWrite(bluePin, rblu);
     }
 
     // Set the RGB LEDs color
