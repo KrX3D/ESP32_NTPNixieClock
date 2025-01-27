@@ -183,28 +183,69 @@ class NixieTubeShield : public LEDControl {
     }
 
     // Do anti-poisoning routine and then turn off all tubes
-    void doAntiPoisoning(void) {
+    void doAntiPoisoning(int flickerMode) {
       bool dots = false;
       dotsEnable(false);
 
-      for (int j = 0; j < 4; j++) {
-        for (int i = 0; i < 11; i++) {
-          setNX1Digit(i);
-          setNX2Digit(i);
-          setNX3Digit(i);
-          setNX4Digit(i);
-          setNX5Digit(i);
-          setNX6Digit(i);
+      if(flickerMode){
+        // Arrays to track current and target digits for each tube
+        byte currentDigits[6] = {0, 0, 0, 0, 0, 0};
+        byte targetDigits[6] = {0, 0, 0, 0, 0, 0};
 
-          // Make the changes visible
-          show();
+        // Randomize target digits for each tube
+        for (int i = 0; i < 6; i++) {
+            targetDigits[i] = random(0, 10); // Target random digit from 0-9
+        }
 
-          // Small delay
-          delay(500);
+        for (int iteration = 0; iteration < 60; iteration++) { // Run for 3 seconds (60 x 50ms)
+            for (int i = 0; i < 6; i++) {
+                // Increment current digit towards the target digit, with wrap-around
+                if (currentDigits[i] != targetDigits[i]) {
+                    currentDigits[i] = (currentDigits[i] + 1) % 10;
+                } else {
+                    // Assign a new random target digit when the current matches the target
+                    targetDigits[i] = random(0, 10);
+                }
+            }
 
-          setLEDColor(i%3==0?255:0, i%3==1?255:0, i%3==2?255:0);
-          dots = !dots;
-          dotsEnable(dots);
+            // Set each digit of the nixie tubes
+            setNX1Digit(currentDigits[0]);
+            setNX2Digit(currentDigits[1]);
+            setNX3Digit(currentDigits[2]);
+            setNX4Digit(currentDigits[3]);
+            setNX5Digit(currentDigits[4]);
+            setNX6Digit(currentDigits[5]);
+
+            // Make the changes visible
+            show();
+
+            // Small delay for flickering effect
+            delay(50);
+
+            // Alternate the dots
+            dots = !dots;
+            dotsEnable(dots);
+        }
+      } else {
+        for (int j = 0; j < 4; j++) {
+          for (int i = 0; i < 11; i++) {
+            setNX1Digit(i);
+            setNX2Digit(i);
+            setNX3Digit(i);
+            setNX4Digit(i);
+            setNX5Digit(i);
+            setNX6Digit(i);
+
+            // Make the changes visible
+            show();
+
+            // Small delay
+            delay(500);
+
+            setLEDColor(i%3==0?255:0, i%3==1?255:0, i%3==2?255:0);
+            dots = !dots;
+            dotsEnable(dots);
+          }
         }
       }
     }
