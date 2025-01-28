@@ -134,7 +134,9 @@ class NixieTubeShield : public LEDControl {
 
     // Neon lamp control
     void dotsEnable(boolean state) {
-      digitalWrite(NEON_DOTS, state ? HIGH : LOW);
+      #ifndef ESP32_WEMOS_D1_R32
+        digitalWrite(NEON_DOTS, state ? HIGH : LOW);
+      #endif
       dotsEnabled = state;
     }
 
