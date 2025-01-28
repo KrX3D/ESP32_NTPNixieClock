@@ -24,7 +24,7 @@
     #define LED_RED      13
     #define LED_BLUE     25
     #define LATCH_ENABLE SS  // SS (GPIO5)
-    #define MODE_BUTTON  2
+    #define MODE_BUTTON  2 // Can cause a boot loop since GPIO2 can trigger at boot which fires up the if with SHIELD.isSetButtonLongClicked() which causes esp_restart(); - can be commented out as workaround 
     #define UP_BUTTON     35
     #define DOWN_BUTTON  4
     #define BUZZER_PIN    26
