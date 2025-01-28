@@ -50,6 +50,15 @@ ESP32 Pin    Shield Pin          Function
     A10           DOWN       Down button
     A4            BUZZER     Buzzer pin
 
+- **Added Support for Wemos D1 R32 Pin Configuration**:  
+  Enables correct pin definitions for the Wemos D1 R32 board, tested with an Arduino Shield Nixie IN-14 v2.2.
+
+  Uncomment the following line in `NixieTubeShield.h`:
+
+    ```cpp
+    //#define ESP32_WEMOS_D1_R32
+  ```
+    
 The ESP32 is powered (via Vin) with 5VDC from a 5 volt regulator driven from
 the 12 VDC supply. The shield is powered directly from the 12 VDC supply.
 
