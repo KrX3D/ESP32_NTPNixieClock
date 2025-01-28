@@ -58,6 +58,10 @@ ESP32 Pin    Shield Pin          Function
     ```cpp
     //#define ESP32_WEMOS_D1_R32
   ```
+
+INFO: 
+  For ESP32_WEMOS_D1_R32:
+        #define MODE_BUTTON  2 // Can cause a boot loop since GPIO2 can trigger at boot which fires up the if with SHIELD.isSetButtonLongClicked() which causes esp_restart() inside ESP32_NTPNixieClock.ino - can be commented out as workaround
     
 The ESP32 is powered (via Vin) with 5VDC from a 5 volt regulator driven from
 the 12 VDC supply. The shield is powered directly from the 12 VDC supply.
