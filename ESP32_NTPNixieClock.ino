@@ -106,6 +106,16 @@
 #define CLOCK_OFF_HOUR 23
 #define CLOCK_ON_HOUR  07
 
+// Sets the AntiPoisoning "animation"
+// When true, it creates a chaotic random flickering effect across all
+// nixie digits for anti-poisoning, while false cycles all digits sequentially
+//  with LED color changes and dot blinking.
+bool flickerMode = false; // Default to normal mode
+
+// Uncoment this inside the NixieTubeShield.h 
+// If using a Wemos D1 R32 board to define correct pins
+//#define ESP32_WEMOS_D1_R32
+
 // Suppress leading zeros
 // Set to false to having leading zeros displayed
 #define SUPPRESS_LEADING_ZEROS true
@@ -201,8 +211,7 @@ void updateDisplay(void) {
     SHIELD.setLEDColor(red);
 
     // Do anti-poisoning function
-    SHIELD.doAntiPoisoning(false); // Normal Mode
-    //SHIELD.doAntiPoisoning(true); // Flicker Mode
+    SHIELD.doAntiPoisoning(flickerMode);
   }
 
   // 15 minute event is rainbow display
@@ -477,8 +486,7 @@ void setup() {
   #endif
 
   // Do the anti poisoning routine
-  SHIELD.doAntiPoisoning(false); // Normal Mode
-  //SHIELD.doAntiPoisoning(true); // Flicker Mode
+  SHIELD.doAntiPoisoning(flickerMode);
 
   Serial.println("\nReady!\n");
 }
